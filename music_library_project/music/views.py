@@ -52,7 +52,15 @@ class SongDetail(APIView):
 
 class SongLikes(APIView):
 
-    def add_like(self, request, pk):
-        song = self.get_song(pk)
-        serializer = SongSerializer(song)
+    def add_likes(self, request, pk):
+        song_like = Song.likes
+        song_like += 1
+        song_like.save()
+
+        # song = self.like(request, pk)
+        #
+        # serializer = SongSerializer()
+
         return Response(serializer.data)
+    # ! TODO add ability to like songs.
+
