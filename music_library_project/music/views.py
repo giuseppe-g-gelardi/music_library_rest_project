@@ -23,7 +23,7 @@ class SongList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Detail(APIView):
+class SongDetail(APIView):
 
     def get_song(self, pk):
         try:
@@ -38,7 +38,7 @@ class Detail(APIView):
 
     def put(self, request, pk):
         song = self.get_song(pk)
-        serializer = self.get_song(pk)
+        serializer = SongSerializer(song, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -48,3 +48,11 @@ class Detail(APIView):
         song = self.get_song(pk)
         song.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SongLikes(APIView):
+
+    def add_like(self, request, pk):
+        song = self.get_song(pk)
+        serializer = SongSerializer(song)
+        return Response(serializer.data)
